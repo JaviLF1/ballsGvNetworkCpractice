@@ -1,0 +1,88 @@
+# Visual Studio files
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.vcxproj.filters
+*.vcxproj.user
+
+# Build output
+Debug/
+Release/
+x64/
+x86/
+Win32/
+ARM/
+ARM64/
+ipch/
+*.aps
+*.ncb
+*.opendb
+*.opensdf
+*.sdf
+*.cachefile
+*.VC.db
+*.VC.VC.opendb
+
+# Compiled output
+*.obj
+*.pch
+*.lib
+*.dll
+*.exe
+*.pdb
+*.ilk
+*.exp
+*.map
+*.pgc
+*.pgd
+*.rsp
+*.sbr
+*.tlb
+*.tli
+*.tlh
+*.tmp
+*.tmp_proj
+*.log
+*.tlog
+*.idb
+*.iobj
+*.ipdb
+
+# CMake (if used alongside VS)
+CMakeCache.txt
+CMakeFiles/
+CMakeScripts/
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+CTestTestfile.cmake
+_deps/
+
+# NuGet packages
+packages/
+*.nupkg
+project.lock.json
+
+# Precompiled headers
+*.gch
+
+# Test results
+TestResults/
+*.trx
+
+# Crash dumps
+*.dmp
+
+# OS files
+Thumbs.db
+Desktop.ini
+.DS_Store
+ehthumbs.db
+
+# Editor backups
+*~
+*.swp
+*.bak
+*.orig
