@@ -67,7 +67,7 @@ int main()
             if (event->is<sf::Event::Closed>())
                 window.close();
         }
-        /*
+        
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W))
         {
             pointTest.setY(pointTest.getY() -1 );
@@ -84,7 +84,7 @@ int main()
         {
             pointTest.setX(pointTest.getX() + 1);
         }
-        */
+        
         
 
         
