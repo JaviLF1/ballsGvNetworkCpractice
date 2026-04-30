@@ -6,8 +6,9 @@
 float ballSpeed = 1;
 
 
+const double k = 9 * std::pow(10, 9);
 
-
+const double carga = 1.602 * std::pow(10, -19);
 
 
 
@@ -38,11 +39,11 @@ int main()
     circleRef.setOutlineThickness(1.f);
     //circleRef.setOrigin({ 250.f, 300.f });
 
-    /*
+    
     circleRef2.setFillColor(sf::Color::Red);
     circleRef2.setOutlineColor(sf::Color::White);
     circleRef2.setOutlineThickness(1.f);
-    */
+    
 
 
     float initX=100;
@@ -104,8 +105,8 @@ int main()
         float distance = std::sqrt(distanceSq);
         float distance2 = std::sqrt(distanceSq2);
 
-        float forceMagnitude = (1.0f / distance) * 50.0f;
-        float forceMagnitude2 = (1.0f / distance2) * 50.0f;
+        float forceMagnitude = k*(carga*carga / (distance*std::pow(10,-29)));
+        float forceMagnitude2 = k*(carga * carga / (distance2* std::pow(10, -29)));
 
         // Calculate final force components
         
