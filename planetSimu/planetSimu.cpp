@@ -3,6 +3,7 @@
 #include <cmath>
 #include <Windows.h>
 #include "Point.h"
+#include <thread>
 
 
 sf::SoundBuffer buffer;
@@ -10,25 +11,45 @@ sf::SoundBuffer buffer;
 
 
 float ballSpeed = 1;
+bool coinStatus = true;
 
 
 const double k = 9 * std::pow(10, 9);
 
 const double carga = 1.602 * std::pow(10, -19);
 
-void hitBox(float x1, float y1, Point coint, sf::CircleShape& visCoint) {
+void hitBox(float x1, float y1, Point coint, sf::CircleShape& visCoint,sf::Sound sdEffect) {
 
 
 
-    if ((x1 >= coint.getX() - 15) and (x1 <= coint.getX() + 15) and (y1 >= coint.getY() - 15) and (y1 <= coint.getY() + 15)) {
+    if ((x1 >= coint.getX() - 20) and (x1 <= coint.getX() + 20) and (y1 >= coint.getY() - 25) and (y1 <= coint.getY() + 50)) {
+        if (coinStatus==true) {
 
-        visCoint.setFillColor(sf::Color::Black);
-
+            visCoint.setFillColor(sf::Color::Black);
+            sdEffect.play();
+            while (sdEffect.getStatus() == sf::Sound::Status::Playing)
+                sf::sleep(sf::milliseconds(1));
+            coinStatus = false;
+            
+        }
     }
 
 
 }
 
+void playMusic() {
+    sf::Music music;
+    if (!music.openFromFile("backMusic.mp3"))
+        return;
+
+    music.setLooping(true);
+    music.setVolume(25.f);
+    music.play();
+
+    // Keep thread alive while music plays
+    while (music.getStatus() == sf::Music::Status::Playing)
+        sf::sleep(sf::milliseconds(100));
+}
 
 
 Point pointTest(400.f, 700.f);
@@ -41,10 +62,16 @@ Point golden(1500.f, 600.f);
 
 int main()
 {
+    //Music
+    std::thread musicThread(playMusic);
+    musicThread.detach();
+
     //Sound
-    if (!buffer.loadFromFile("amar.mp3"))
+    if (!buffer.loadFromFile("coinSd.mp3"))
         return -1;
-    sf::Sound sound(buffer);
+    sf::Sound soundCoin(buffer);
+    soundCoin.setVolume(10.f);       // 0–100
+    soundCoin.setPitch(1.f);
 
     // Create a window
     sf::RenderWindow window(sf::VideoMode({ 1800u, 1080u }), "SFML3 Circle");
@@ -73,7 +100,7 @@ int main()
     circleRef2.setOutlineThickness(1.f);
 
     goldenView.setOutlineColor(sf::Color::White);
-    goldenView.setOutlineThickness(1.f);
+    goldenView.setOutlineThickness(1.f); 
     goldenView.setFillColor(sf::Color::Yellow);
     goldenView.setPosition({ golden.getX(), golden.getY() });
 
@@ -118,6 +145,14 @@ int main()
         {
             pointTest.setX(pointTest.getX() + 3);
         }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::R))
+        {
+            initX = 100;
+            initY = 400;
+            forceX = 0;
+            forceY = 0;
+        }
+
 
 
         //Here we are detecting the coin state
@@ -154,7 +189,7 @@ int main()
         initX = initX + forceX;
         initY = initY + forceY;
 
-        hitBox(initX, initY, golden, goldenView);
+        hitBox(initX, initY, golden, goldenView,soundCoin);
 
         circle.setPosition({ initX-5, initY-5 });
 
