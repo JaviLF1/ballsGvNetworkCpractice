@@ -1,4 +1,5 @@
 ﻿#include "Point.h"
+#include <SFML/Graphics.hpp>
 #include <cmath>
 
 Point::Point(float xInit, float yInit) {
@@ -30,3 +31,4 @@ float Point::getAngle(float otherX, float otherY) {
 
 
 }
+

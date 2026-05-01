@@ -1,7 +1,13 @@
 ﻿#include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <cmath>
 #include <Windows.h>
 #include "Point.h"
+
+
+sf::SoundBuffer buffer;
+
+
 
 float ballSpeed = 1;
 
@@ -10,16 +16,36 @@ const double k = 9 * std::pow(10, 9);
 
 const double carga = 1.602 * std::pow(10, -19);
 
+void hitBox(float x1, float y1, Point coint, sf::CircleShape& visCoint) {
+
+
+
+    if ((x1 >= coint.getX() - 15) and (x1 <= coint.getX() + 15) and (y1 >= coint.getY() - 15) and (y1 <= coint.getY() + 15)) {
+
+        visCoint.setFillColor(sf::Color::Black);
+
+    }
+
+
+}
+
 
 
 Point pointTest(400.f, 700.f);
 Point pointTest2(900.f, 700.f);
 
 
+Point golden(1500.f, 600.f);
+
 
 
 int main()
 {
+    //Sound
+    if (!buffer.loadFromFile("amar.mp3"))
+        return -1;
+    sf::Sound sound(buffer);
+
     // Create a window
     sf::RenderWindow window(sf::VideoMode({ 1800u, 1080u }), "SFML3 Circle");
 
@@ -27,6 +53,8 @@ int main()
     sf::CircleShape circle(10.f);
     sf::CircleShape circleRef(5.f);
     sf::CircleShape circleRef2(5.f);
+
+    sf::CircleShape goldenView(20.f);
 
     // Customize the circle
     circle.setFillColor(sf::Color::White);
@@ -39,19 +67,24 @@ int main()
     circleRef.setOutlineThickness(1.f);
     //circleRef.setOrigin({ 250.f, 300.f });
 
-    
+
     circleRef2.setFillColor(sf::Color::Red);
     circleRef2.setOutlineColor(sf::Color::White);
     circleRef2.setOutlineThickness(1.f);
-    
+
+    goldenView.setOutlineColor(sf::Color::White);
+    goldenView.setOutlineThickness(1.f);
+    goldenView.setFillColor(sf::Color::Yellow);
+    goldenView.setPosition({ golden.getX(), golden.getY() });
 
 
-    float initX=100;
 
-    float initY=400;
+    float initX = 100;
 
-    float forceX=0;
-    float forceY=0;
+    float initY = 400;
+
+    float forceX = 0;
+    float forceY = 0;
 
     float realX = 0;
 
@@ -68,26 +101,28 @@ int main()
             if (event->is<sf::Event::Closed>())
                 window.close();
         }
-        
+
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W))
         {
-            pointTest.setY(pointTest.getY() -1 );
+            pointTest.setY(pointTest.getY() - 3);
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S))
         {
-            pointTest.setY(pointTest.getY() + 1);
+            pointTest.setY(pointTest.getY() + 3);
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A))
         {
-            pointTest.setX(pointTest.getX() - 1);
+            pointTest.setX(pointTest.getX() - 3);
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))
         {
-            pointTest.setX(pointTest.getX() + 1);
+            pointTest.setX(pointTest.getX() + 3);
         }
-        
-        
 
+
+        //Here we are detecting the coin state
+
+        
         
         //define Force
         
@@ -110,8 +145,8 @@ int main()
 
         // Calculate final force components
         
-        forceX += std::cos(angle) * forceMagnitude;
-        forceY += std::sin(angle) * forceMagnitude;
+        forceX += std::cos(angle) * forceMagnitude*2;
+        forceY += std::sin(angle) * forceMagnitude*2;
 
         forceX += std::cos(angle2) * forceMagnitude2;
         forceY += std::sin(angle2) * forceMagnitude2;
@@ -119,7 +154,7 @@ int main()
         initX = initX + forceX;
         initY = initY + forceY;
 
-        
+        hitBox(initX, initY, golden, goldenView);
 
         circle.setPosition({ initX-5, initY-5 });
 
@@ -129,6 +164,7 @@ int main()
         window.draw(circle);
         window.draw(circleRef);
         window.draw(circleRef2);
+        window.draw(goldenView);
         window.display();
         Sleep(10);
     }

@@ -86,3 +86,7 @@ ehthumbs.db
 *.swp
 *.bak
 *.orig
+
+
+#MusicFiles
+*.mp3

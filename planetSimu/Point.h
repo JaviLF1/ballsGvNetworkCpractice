@@ -1,4 +1,6 @@
 ﻿#pragma once
+#include <SFML/Graphics.hpp>
+
 class Point
 {
 
@@ -36,7 +38,7 @@ public:
     }
 };
 
-
+//void hitBox(float x1,  float y1, Point coint, sf::CircleShape visCoint);
 
 
 
